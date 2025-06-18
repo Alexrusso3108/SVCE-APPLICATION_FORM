@@ -1,0 +1,751 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SVCE Admission Form</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="container">
+      <header>
+        <div class="logo-section">
+          <img
+            src="svce-logo.png"
+            alt="Sri Venkateshwara College of Engineering"
+            class="college-header-img"
+          />
+          <p class="subtitle">Application Form</p>
+        </div>
+        <div class="progress-bar">
+          <div class="step active">1</div>
+          <div class="step">2</div>
+          <div class="step">3</div>
+          <div class="step">4</div>
+          <div class="step">5</div>
+          <div class="step">6</div>
+        </div>
+      </header>
+
+      <main>
+        <!-- Personal Details Form -->
+        <form id="personalDetailsForm" class="form-section active">
+          <h2>Personal Details</h2>
+
+          <div class="form-group">
+            <label for="name">Full Name</label>
+            <input type="text" id="name" name="name" required />
+          </div>
+
+          <div class="form-group">
+            <label for="mobile">Mobile Number</label>
+            <input
+              type="tel"
+              id="mobile"
+              name="mobile"
+              pattern="[0-9]{10}"
+              required
+            />
+            <span id="mobileError" class="error-message"></span>
+          </div>
+
+          <div class="form-group">
+            <label for="email">Email Address</label>
+            <input type="email" id="email" name="email" required />
+            <span id="emailError" class="error-message"></span>
+          </div>
+
+          <div class="form-group">
+            <label for="dob">Date of Birth</label>
+            <input type="date" id="dob" name="dob" required />
+          </div>
+
+          <div class="form-group">
+            <label for="gender">Gender</label>
+            <select id="gender" name="gender" required>
+              <option value="">Select Gender</option>
+              <option value="male">Male</option>
+              <option value="female">Female</option>
+              <option value="other">Other</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="religion">Religion</label>
+            <select id="religion" name="religion" required>
+              <option value="">Select Religion</option>
+              <option value="hindu">Hindu</option>
+              <option value="muslim">Muslim</option>
+              <option value="christian">Christian</option>
+              <option value="sikh">Sikh</option>
+              <option value="buddhist">Buddhist</option>
+              <option value="jain">Jain</option>
+              <option value="parsi">Parsi (Zoroastrian)</option>
+              <option value="jewish">Jewish</option>
+              <option value="others">Others</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="category">Caste Category</label>
+            <select id="category" name="category" required>
+              <option value="">Select Category</option>
+              <option value="sc">SC</option>
+              <option value="st">ST</option>
+              <option value="cat1">CAT-1</option>
+              <option value="2a">2A</option>
+              <option value="2b">2B</option>
+              <option value="3a">3A</option>
+              <option value="3b">3B</option>
+              <option value="general">General</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="aadharNo">Student Aadhaar Card Number</label>
+            <input
+              type="text"
+              id="aadharNo"
+              name="aadharNo"
+              pattern="[0-9]{12}"
+              minlength="12"
+              maxlength="12"
+              oninput="this.value = this.value.replace(/[^0-9]/g, '')"
+              required
+            />
+            <span id="aadharError" class="error-message"></span>
+          </div>
+
+          <div class="button-group">
+            <button
+              type="button"
+              class="btn btn-primary"
+              onclick="saveAndNext(2)"
+            >
+              Save & Next
+            </button>
+          </div>
+        </form>
+
+        <!-- Course Preferences Form -->
+        <form id="coursePreferencesForm" class="form-section">
+          <h2>Course Preferences</h2>
+
+          <div class="form-group">
+            <label for="programPreference">Program Preference</label>
+            <select
+              id="programPreference"
+              name="programPreference"
+              onchange="updateCourseOptions()"
+              required
+            >
+              <option value="">Select Program</option>
+              <option value="ug">UG Programs</option>
+              <option value="pg">PG Programs</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="coursePreference">Course Preference</label>
+            <select id="coursePreference" name="coursePreference" required>
+              <option value="">Select Course</option>
+            </select>
+          </div>
+
+          <div class="button-group">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              onclick="navigateToPage(1)"
+            >
+              Previous
+            </button>
+            <button
+              type="button"
+              class="btn btn-primary"
+              onclick="saveAndNext(3)"
+            >
+              Save & Next
+            </button>
+          </div>
+        </form>
+
+        <!-- Address Details Form -->
+        <form id="addressDetailsForm" class="form-section">
+          <h2>Address Details</h2>
+
+          <div class="form-group">
+            <label>
+              <input
+                type="checkbox"
+                id="sameAddress"
+                name="sameAddress"
+                onchange="togglePermanentAddress()"
+              />
+              Permanent Address Same as Communication Address
+            </label>
+          </div>
+
+          <div class="address-section">
+            <h3>Communication Address</h3>
+            <div class="form-group">
+              <label for="commAddressLine1"
+                >Address (House No,Street,Taluk)</label
+              >
+              <input
+                type="text"
+                id="commAddressLine1"
+                name="commAddressLine1"
+                required
+              />
+            </div>
+
+            <div class="form-group">
+              <label for="commAddressLine2">District</label>
+              <input
+                type="text"
+                id="commAddressLine2"
+                name="commAddressLine2"
+              />
+            </div>
+
+            <div class="form-group">
+              <label for="commCity">City</label>
+              <input type="text" id="commCity" name="commCity" required />
+            </div>
+
+            <div class="form-group">
+              <label for="commState">State</label>
+              <input type="text" id="commState" name="commState" required />
+            </div>
+
+            <div class="form-group">
+              <label for="commPincode">Pincode</label>
+              <input
+                type="text"
+                id="commPincode"
+                name="commPincode"
+                pattern="[0-9]{6}"
+                required
+              />
+            </div>
+          </div>
+
+          <div id="permanentAddressSection" class="address-section">
+            <h3>Permanent Address</h3>
+            <div class="form-group">
+              <label for="permAddressLine1"
+                >Address (House No,Street,Taluk)</label
+              >
+              <input
+                type="text"
+                id="permAddressLine1"
+                name="permAddressLine1"
+                required
+              />
+            </div>
+
+            <div class="form-group">
+              <label for="permAddressLine2">District</label>
+              <input
+                type="text"
+                id="permAddressLine2"
+                name="permAddressLine2"
+              />
+            </div>
+
+            <div class="form-group">
+              <label for="permCity">City</label>
+              <input type="text" id="permCity" name="permCity" required />
+            </div>
+
+            <div class="form-group">
+              <label for="permState">State</label>
+              <input type="text" id="permState" name="permState" required />
+            </div>
+
+            <div class="form-group">
+              <label for="permPincode">Pincode</label>
+              <input
+                type="text"
+                id="permPincode"
+                name="permPincode"
+                pattern="[0-9]{6}"
+                required
+              />
+            </div>
+          </div>
+
+          <div class="button-group">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              onclick="navigateToPage(2)"
+            >
+              Previous
+            </button>
+            <button
+              type="button"
+              class="btn btn-primary"
+              onclick="saveAndNext(4)"
+            >
+              Save & Next
+            </button>
+          </div>
+        </form>
+
+        <!-- Parent Details Form -->
+        <form id="parentDetailsForm" class="form-section">
+          <h2>Parent/Guardian Details</h2>
+
+          <div class="parent-section">
+            <h3>Father's Details</h3>
+            <div class="form-group">
+              <label for="fatherName">Father's Name</label>
+              <input type="text" id="fatherName" name="fatherName" />
+            </div>
+
+            <div class="form-group">
+              <label for="fatherMobile">Father's Mobile Number</label>
+              <input
+                type="tel"
+                id="fatherMobile"
+                name="fatherMobile"
+                pattern="[0-9]{10}"
+              />
+              <span id="fatherMobileError" class="error-message"></span>
+            </div>
+
+            <div class="form-group">
+              <label for="fatherOccupation">Father's Occupation</label>
+              <input
+                type="text"
+                id="fatherOccupation"
+                name="fatherOccupation"
+              />
+            </div>
+
+            <div class="form-group">
+              <label for="fatherAadhaar">Father's Aadhaar Number</label>
+              <input
+                type="text"
+                id="fatherAadhaar"
+                name="fatherAadhaar"
+                pattern="[0-9]{12}"
+                minlength="12"
+                maxlength="12"
+                oninput="this.value = this.value.replace(/[^0-9]/g, '')"
+              />
+              <span id="fatherAadhaarError" class="error-message"></span>
+            </div>
+
+            <div class="form-group">
+              <label for="fatherIncome">Father's Annual Income</label>
+              <input
+                type="number"
+                id="fatherIncome"
+                name="fatherIncome"
+                min="0"
+              />
+            </div>
+          </div>
+
+          <div class="parent-section">
+            <h3>Mother's Details</h3>
+            <div class="form-group">
+              <label for="motherName">Mother's Name</label>
+              <input type="text" id="motherName" name="motherName" />
+            </div>
+
+            <div class="form-group">
+              <label for="motherMobile">Mother's Mobile Number</label>
+              <input
+                type="tel"
+                id="motherMobile"
+                name="motherMobile"
+                pattern="[0-9]{10}"
+              />
+              <span id="motherMobileError" class="error-message"></span>
+            </div>
+
+            <div class="form-group">
+              <label for="motherOccupation">Mother's Occupation</label>
+              <input
+                type="text"
+                id="motherOccupation"
+                name="motherOccupation"
+              />
+            </div>
+
+            <div class="form-group">
+              <label for="motherAadhaar">Mother's Aadhaar Number</label>
+              <input
+                type="text"
+                id="motherAadhaar"
+                name="motherAadhaar"
+                pattern="[0-9]{12}"
+                minlength="12"
+                maxlength="12"
+                oninput="this.value = this.value.replace(/[^0-9]/g, '')"
+              />
+              <span id="motherAadhaarError" class="error-message"></span>
+            </div>
+
+            <div class="form-group">
+              <label for="motherIncome">Mother's Annual Income</label>
+              <input
+                type="number"
+                id="motherIncome"
+                name="motherIncome"
+                min="0"
+              />
+            </div>
+          </div>
+
+          <div class="parent-section">
+            <h3>Guardian's Details</h3>
+            <div class="form-group">
+              <label for="guardianName">Guardian's Name</label>
+              <input type="text" id="guardianName" name="guardianName" />
+            </div>
+
+            <div class="form-group">
+              <label for="guardianMobile">Guardian's Mobile Number</label>
+              <input
+                type="tel"
+                id="guardianMobile"
+                name="guardianMobile"
+                pattern="[0-9]{10}"
+              />
+              <span id="guardianMobileError" class="error-message"></span>
+            </div>
+
+            <div class="form-group">
+              <label for="guardianOccupation">Guardian's Occupation</label>
+              <input
+                type="text"
+                id="guardianOccupation"
+                name="guardianOccupation"
+              />
+            </div>
+
+            <div class="form-group">
+              <label for="guardianAadhaar">Guardian's Aadhaar Number</label>
+              <input
+                type="text"
+                id="guardianAadhaar"
+                name="guardianAadhaar"
+                pattern="[0-9]{12}"
+                minlength="12"
+                maxlength="12"
+                oninput="this.value = this.value.replace(/[^0-9]/g, '')"
+              />
+              <span id="guardianAadhaarError" class="error-message"></span>
+            </div>
+
+            <div class="form-group">
+              <label for="guardianIncome">Guardian's Annual Income</label>
+              <input
+                type="number"
+                id="guardianIncome"
+                name="guardianIncome"
+                min="0"
+              />
+            </div>
+
+            <div class="form-group">
+              <label for="guardianRelation">Relationship with Student</label>
+              <select id="guardianRelation" name="guardianRelation">
+                <option value="">Select Relationship</option>
+                <option value="grandfather">Grandfather</option>
+                <option value="grandmother">Grandmother</option>
+                <option value="uncle">Uncle</option>
+                <option value="aunt">Aunt</option>
+                <option value="sibling">Sibling</option>
+                <option value="other">Other</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="button-group">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              onclick="navigateToPage(3)"
+            >
+              Previous
+            </button>
+            <button
+              type="button"
+              class="btn btn-primary"
+              onclick="saveAndNext(5)"
+            >
+              Save & Next
+            </button>
+          </div>
+        </form>
+
+        <!-- Educational Details Form -->
+        <form id="educationalDetailsForm" class="form-section">
+          <h2>Educational Details</h2>
+
+          <div class="education-section">
+            <h3>10th Details</h3>
+            <div class="form-group">
+              <label for="tenthSchool">School Name with Address</label>
+              <input type="text" id="tenthSchool" name="tenthSchool" required />
+            </div>
+
+            <div class="form-group">
+              <label for="tenthBoard">Board</label>
+              <input type="text" id="tenthBoard" name="tenthBoard" required />
+            </div>
+
+            <div class="form-group">
+              <label for="tenthYear">Year of Passing</label>
+              <input
+                type="number"
+                id="tenthYear"
+                name="tenthYear"
+                min="2020"
+                max="2025"
+                required
+              />
+            </div>
+
+            <div class="form-group">
+              <label for="tenthPercentage">Percentage</label>
+              <input
+                type="number"
+                id="tenthPercentage"
+                name="tenthPercentage"
+                step="0.01"
+                min="0"
+                max="100"
+                required
+              />
+            </div>
+          </div>
+
+          <div class="education-section">
+            <div class="form-group">
+              <label for="qualificationTypeSelect">Select Qualification</label>
+              <select
+                id="qualificationTypeSelect"
+                name="qualificationTypeSelect"
+                required
+              >
+                <option value="">Select</option>
+                <option value="twelfth">12th</option>
+                <option value="diploma">Diploma</option>
+              </select>
+            </div>
+            <h3 id="dynamicQualificationHeading">12th Details</h3>
+            <div class="form-group">
+              <label for="twelfthSchool">College Name with Address</label>
+              <input
+                type="text"
+                id="twelfthSchool"
+                name="twelfthSchool"
+                required
+              />
+            </div>
+
+            <div class="form-group">
+              <label for="twelfthBoard">Board</label>
+              <input
+                type="text"
+                id="twelfthBoard"
+                name="twelfthBoard"
+                required
+              />
+            </div>
+
+            <div class="form-group">
+              <label for="twelfthYear">Year of Passing</label>
+              <input
+                type="number"
+                id="twelfthYear"
+                name="twelfthYear"
+                min="2022"
+                max="2025"
+                required
+              />
+            </div>
+
+            <div class="form-group">
+              <label for="twelfthPercentage">Percentage</label>
+              <input
+                type="number"
+                id="twelfthPercentage"
+                name="twelfthPercentage"
+                step="0.01"
+                min="0"
+                max="100"
+                required
+              />
+            </div>
+          </div>
+
+          <div class="button-group">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              onclick="navigateToPage(4)"
+            >
+              Previous
+            </button>
+            <button
+              type="button"
+              class="btn btn-primary"
+              onclick="saveAndNext(6)"
+            >
+              Save & Next
+            </button>
+          </div>
+        </form>
+
+        <!-- Declaration Form -->
+        <form id="declarationForm" class="form-section">
+          <h2>Declaration</h2>
+
+          <div class="form-group">
+            <div class="declaration-text">
+              <ol>
+                <li>
+                  I declare that the particulars and information furnished above
+                  are fully true and correct.
+                </li>
+                <li>
+                  If there is any false information / fake certificate of any
+                  forgery in the particulars / certificates / documents
+                  submitted by me / my ward to the authorities of SVCE/VTU/DTE/
+                  AICTE, my/ my wards admission may at once be cancelled and
+                  necessary action can be taken by SVCE Management.
+                </li>
+                <li>
+                  I promise to abide by the Rules & Regulations of the
+                  Institution and I can be subjected to any disciplinary action,
+                  if need arises, and also my admission can be cancelled, if I
+                  am found not obeying the rules & regulations.
+                </li>
+                <li>
+                  I agree to adhere to Rules and Regulations, scheme of study &
+                  examinations of the Visvesvaraya Technological University,
+                  Belagavi.
+                </li>
+                <li>
+                  I do not include myself in ragging or any other such activity
+                  which is treated as illegal in the eye of law and in any of
+                  the form.
+                </li>
+                <li>
+                  I agree to the applicant's admission to the institution. I
+                  shall be responsible for the payment of all his/her fees and
+                  charges, I shall be responsible for his/her conduct and good
+                  behaviour during the course & the entire period till he/she
+                  gets the degree.
+                </li>
+                <li>
+                  I will not claim or demand, under any circumstances or for any
+                  reasons, any refund of amount paid to the institution or to
+                  Management in connection with his/her admission even though
+                  he/ she withdraws his/her candidature and admission at any
+                  time during the course at his/her own risk or financial loss.
+                  There is no necessity to inform me further on these lines.
+                </li>
+                <li>
+                  If I am leaving the course either in the middle or on
+                  completion of the course, I will commit myself to clear all
+                  the dues before collecting TC/College leaving certificate.
+                </li>
+                <li>
+                  College has the right to use photographs and/or video
+                  recordings of me, taken during academic events, cultural
+                  activities, or in connection with my academic performance, for
+                  use in college-related marketing and promotional materials.
+                </li>
+                <li>
+                  I acknowledge that the college holds copyright and ownership
+                  rights for any student's research publications, patents, or
+                  innovations developed or presented under the college's
+                  guidance.
+                </li>
+                <li>
+                  I will be responsible for any damage I cause to college
+                  property, whether on or off campus, and I shall pay the
+                  applicable damage charges.
+                </li>
+                <li>
+                  Any disputes arise is within the Jurisdiction of Bangalore
+                  city only.
+                </li>
+              </ol>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>
+              <input
+                type="checkbox"
+                id="agreementCheckbox"
+                name="agreementCheckbox"
+                required
+              />
+              I agree to the above declaration
+            </label>
+          </div>
+
+          <div class="form-group">
+            <label for="studentName">Student Name</label>
+            <input type="text" id="studentName" name="studentName" />
+          </div>
+
+          <div class="form-group">
+            <label for="date">Date</label>
+            <input type="date" id="date" name="date" required />
+          </div>
+
+          <div class="button-group">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              onclick="navigateToPage(5)"
+            >
+              Previous
+            </button>
+            <button
+              type="button"
+              class="btn btn-primary"
+              onclick="submitForm()"
+            >
+              Submit
+            </button>
+            <button
+              type="button"
+              class="btn btn-info"
+              onclick="generatePrintPreview()"
+            >
+              Print Preview
+            </button>
+          </div>
+        </form>
+      </main>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="config.js"></script>
+    <script src="script.js"></script>
+
+    <!-- Success Overlay HTML -->
+    <div id="successOverlay">
+      <div class="success-content">
+        <div class="checkmark-circle">
+          <div class="checkmark"></div>
+        </div>
+        <h2>Form Submitted Successfully!</h2>
+        <div class="sparkles-container"></div>
+      </div>
+    </div>
+  </body>
+</html>
