@@ -174,18 +174,6 @@
         <form id="addressDetailsForm" class="form-section">
           <h2>Address Details</h2>
 
-          <div class="form-group">
-            <label>
-              <input
-                type="checkbox"
-                id="sameAddress"
-                name="sameAddress"
-                onchange="togglePermanentAddress()"
-              />
-              Permanent Address Same as Communication Address
-            </label>
-          </div>
-
           <div class="address-section">
             <h3>Communication Address</h3>
             <div class="form-group">
@@ -274,6 +262,18 @@
                 required
               />
             </div>
+          </div>
+
+          <div class="form-group">
+            <label>
+              <input
+                type="checkbox"
+                id="sameAddress"
+                name="sameAddress"
+                onchange="togglePermanentAddress()"
+              />
+              Permanent Address Same as Communication Address
+            </label>
           </div>
 
           <div class="button-group">
