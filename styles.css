@@ -48,9 +48,10 @@ header {
 
 .college-header-img {
     width: 100%;
-    max-width: 600px;
+    max-width: none;
     height: auto;
     margin-bottom: 1.5rem;
+    display: block;
 }
 
 .college-header {
@@ -528,14 +529,7 @@ input[readonly] {
     break-before: avoid-page !important;
   }
   .college-header-img {
-    display: block !important;
-    margin: 0 auto 1rem auto !important;
-    max-width: 300px !important;
-    height: auto !important;
-    page-break-before: avoid !important;
-    page-break-after: avoid !important;
-    break-after: avoid-page !important;
-    break-before: avoid-page !important;
+    content: url('svce-new-logo.png');
   }
   .progress-bar, .button-group, .btn, nav, footer, .step {
     display: none !important;

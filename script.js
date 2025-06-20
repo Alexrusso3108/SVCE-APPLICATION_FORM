@@ -313,7 +313,13 @@ function saveCurrentPageData() {
             formData[input.name] = input.value;
         }
     });
-
+    // Special handling for Diploma: copy twelfth fields to diploma fields if selected
+    if (form.id === 'educationalDetailsForm' && formData.qualificationTypeSelect === 'diploma') {
+        formData.diplomaSchool = formData.twelfthSchool;
+        formData.diplomaBoard = formData.twelfthBoard;
+        formData.diplomaYear = formData.twelfthYear;
+        formData.diplomaPercentage = formData.twelfthPercentage;
+    }
     localStorage.setItem('admissionFormData', JSON.stringify(formData));
 }
 
@@ -771,8 +777,7 @@ function createSparkle(container) {
 function generatePrintPreview() {
     saveCurrentPageData(); // Ensure current page data is saved to formData
 
-    const printWindow = window.open('', '_blank');
-    printWindow.document.write('<html><head><title>Admission Form Preview</title>');
+    const printWindow = window.open('', 'printWindow');
     printWindow.document.write('<style>');
     printWindow.document.write(`
         html, body { font-family: Arial, sans-serif; margin: 0 !important; padding: 0 !important; color: #333; width: 100vw !important; max-width: 100vw !important; box-sizing: border-box; }
@@ -815,23 +820,22 @@ function generatePrintPreview() {
     `);
     printWindow.document.write('</style>');
     printWindow.document.write('</head><body>');
-    // Add logo at the top
-    printWindow.document.write('<div class="logo-section" style="text-align:center; margin-bottom: 2rem;"><img src="svce-logo.png" alt="Sri Venkateshwara College of Engineering" style="max-width: 300px; height: auto; display: block; margin: 0 auto 1rem auto;"></div>');
-    printWindow.document.write('<h1>Admission Form Details</h1>');
+    // Always show the provided header image at the top of the print preview
+    printWindow.document.write('<div style="margin-bottom: 2rem;"><img src="svce-new-logo.png" alt="SVCE Header" style="width: 100%; max-width: 1000px; height: auto; display: block; margin: 0 auto 1rem auto;"></div>');
+    printWindow.document.write('<h1 style="text-align:center;">Application Form For Admission to UG/PG</h1>');
 
     // Personal Details
     printWindow.document.write('<div class="section" style="margin-bottom: 24px;">');
     printWindow.document.write('<table style="width:100%;border-collapse:collapse;">');
     printWindow.document.write('<thead><tr><th colspan="2" style="background:#1976d2;color:#fff;padding:6px 10px;text-align:left;font-size:1rem;border:1px solid #333;">Personal Details</th></tr></thead>');
     printWindow.document.write('<tbody>');
-    printWindow.document.write(`<tr><td style="font-weight:bold;width:40%;padding:4px 8px;border:1px solid #333;">Full Name</td><td style="padding:4px 8px;border:1px solid #333;">${formData.name || 'N/A'}</td></tr>`);
+    printWindow.document.write(`<tr><td style="font-weight:bold;width:40%;padding:4px 8px;border:1px solid #333;">Full Name</td><td style="padding:4px 8px;border:1px solid #333;">${(formData.name || 'N/A').toUpperCase()}</td></tr>`);
     printWindow.document.write(`<tr><td style="font-weight:bold;border:1px solid #333;">Email</td><td style="border:1px solid #333;">${formData.email || 'N/A'}</td></tr>`);
     printWindow.document.write(`<tr><td style="font-weight:bold;border:1px solid #333;">Mobile Number</td><td style="border:1px solid #333;">${formData.mobile || 'N/A'}</td></tr>`);
     printWindow.document.write(`<tr><td style="font-weight:bold;border:1px solid #333;">Date of Birth</td><td style="border:1px solid #333;">${formData.dob || 'N/A'}</td></tr>`);
-    printWindow.document.write(`<tr><td style="font-weight:bold;border:1px solid #333;">Gender</td><td style="border:1px solid #333;">${formData.gender || 'N/A'}</td></tr>`);
-    printWindow.document.write(`<tr><td style="font-weight:bold;border:1px solid #333;">Nationality</td><td style="border:1px solid #333;">${formData.nationality || 'N/A'}</td></tr>`);
-    printWindow.document.write(`<tr><td style="font-weight:bold;border:1px solid #333;">Religion</td><td style="border:1px solid #333;">${formData.religion || 'N/A'}</td></tr>`);
-    printWindow.document.write(`<tr><td style="font-weight:bold;border:1px solid #333;">Caste Category</td><td style="border:1px solid #333;">${formData.category || 'N/A'}</td></tr>`);
+    printWindow.document.write(`<tr><td style="font-weight:bold;border:1px solid #333;">Gender</td><td style="border:1px solid #333;">${(formData.gender || 'N/A').toUpperCase()}</td></tr>`);
+    printWindow.document.write(`<tr><td style="font-weight:bold;border:1px solid #333;">Religion</td><td style="border:1px solid #333;">${(formData.religion || 'N/A').toUpperCase()}</td></tr>`);
+    printWindow.document.write(`<tr><td style="font-weight:bold;border:1px solid #333;">Caste Category</td><td style="border:1px solid #333;">${(formData.category || 'N/A').toUpperCase()}</td></tr>`);
     printWindow.document.write(`<tr><td style="font-weight:bold;border:1px solid #333;">Aadhaar Number</td><td style="border:1px solid #333;">${formData.aadharNo || 'N/A'}</td></tr>`);
     printWindow.document.write('</tbody></table></div>');
 
@@ -840,7 +844,7 @@ function generatePrintPreview() {
     printWindow.document.write('<table style="width:100%;border-collapse:collapse;">');
     printWindow.document.write('<thead><tr><th style="background:#1976d2;color:#fff;padding:6px 10px;text-align:left;border:1px solid #333;">Program Preference</th><th style="background:#1976d2;color:#fff;padding:6px 10px;text-align:left;border:1px solid #333;">Course Preference</th></tr></thead>');
     printWindow.document.write('<tbody>');
-    printWindow.document.write(`<tr><td style="padding:4px 8px;border:1px solid #333;">${formData.programPreference || 'N/A'}</td><td style="padding:4px 8px;border:1px solid #333;">${formData.coursePreference || 'N/A'}</td></tr>`);
+    printWindow.document.write(`<tr><td style="padding:4px 8px;border:1px solid #333;">${(formData.programPreference || 'N/A').toUpperCase()}</td><td style="padding:4px 8px;border:1px solid #333;">${(formData.coursePreference || 'N/A').toUpperCase()}</td></tr>`);
     printWindow.document.write('</tbody></table></div>');
 
     // Address Details
@@ -849,12 +853,10 @@ function generatePrintPreview() {
     printWindow.document.write('<thead><tr><th colspan="3" style="background:#1976d2;color:#fff;padding:6px 10px;text-align:left;font-size:1rem;border:1px solid #333;">Address Details</th></tr>');
     printWindow.document.write('<tr><th style="background:#e3f0fb;padding:6px 10px;border:1px solid #333;"></th><th style="background:#e3f0fb;padding:6px 10px;border:1px solid #333;">Communication Address</th><th style="background:#e3f0fb;padding:6px 10px;border:1px solid #333;">Permanent Address</th></tr></thead>');
     printWindow.document.write('<tbody>');
-    printWindow.document.write(`<tr><td style="font-weight:bold;border:1px solid #333;">Address Line 1</td><td style="border:1px solid #333;">${formData.commAddressLine1 || '-'}</td><td style="border:1px solid #333;">${formData.permAddressLine1 || '-'}</td></tr>`);
-    printWindow.document.write(`<tr><td style="font-weight:bold;border:1px solid #333;">Address Line 2</td><td style="border:1px solid #333;">${formData.commAddressLine2 || '-'}</td><td style="border:1px solid #333;">${formData.permAddressLine2 || '-'}</td></tr>`);
+    printWindow.document.write(`<tr><td style="font-weight:bold;border:1px solid #333;">Address(House No/Street/Taluk)</td><td style="border:1px solid #333;">${formData.commAddressLine1 || '-'}</td><td style="border:1px solid #333;">${formData.permAddressLine1 || '-'}</td></tr>`);
+    printWindow.document.write(`<tr><td style="font-weight:bold;border:1px solid #333;">District</td><td style="border:1px solid #333;">${formData.commAddressLine2 || '-'}</td><td style="border:1px solid #333;">${formData.permAddressLine2 || '-'}</td></tr>`);
     printWindow.document.write(`<tr><td style="font-weight:bold;border:1px solid #333;">City</td><td style="border:1px solid #333;">${formData.commCity || '-'}</td><td style="border:1px solid #333;">${formData.permCity || '-'}</td></tr>`);
-    printWindow.document.write(`<tr><td style="font-weight:bold;border:1px solid #333;">District</td><td style="border:1px solid #333;">${formData.commDistrict || '-'}</td><td style="border:1px solid #333;">${formData.permDistrict || '-'}</td></tr>`);
     printWindow.document.write(`<tr><td style="font-weight:bold;border:1px solid #333;">State</td><td style="border:1px solid #333;">${formData.commState || '-'}</td><td style="border:1px solid #333;">${formData.permState || '-'}</td></tr>`);
-    printWindow.document.write(`<tr><td style="font-weight:bold;border:1px solid #333;">Country</td><td style="border:1px solid #333;">${formData.commCountry || '-'}</td><td style="border:1px solid #333;">${formData.permCountry || '-'}</td></tr>`);
     printWindow.document.write(`<tr><td style="font-weight:bold;border:1px solid #333;">Pincode</td><td style="border:1px solid #333;">${formData.commPincode || '-'}</td><td style="border:1px solid #333;">${formData.permPincode || '-'}</td></tr>`);
     printWindow.document.write('</tbody></table></div>');
 
@@ -863,12 +865,31 @@ function generatePrintPreview() {
     printWindow.document.write('<table style="width:100%;border-collapse:collapse;">');
     printWindow.document.write('<thead><tr><th colspan="2" style="background:#1976d2;color:#fff;padding:6px 10px;text-align:left;font-size:1rem;border:1px solid #333;">Parent Details</th></tr></thead>');
     printWindow.document.write('<tbody>');
-    printWindow.document.write(`<tr><td style="font-weight:bold;width:40%;padding:4px 8px;border:1px solid #333;">Father Name</td><td style="padding:4px 8px;border:1px solid #333;">${formData.fatherName || '-'}</td></tr>`);
-    printWindow.document.write(`<tr><td style="font-weight:bold;border:1px solid #333;">Father's Mobile Number</td><td style="border:1px solid #333;">${formData.fatherMobile || '-'}</td></tr>`);
-    printWindow.document.write(`<tr><td style="font-weight:bold;border:1px solid #333;">Father's Occupation</td><td style="border:1px solid #333;">${formData.fatherOccupation || '-'}</td></tr>`);
-    printWindow.document.write(`<tr><td style="font-weight:bold;border:1px solid #333;">Mother Name</td><td style="border:1px solid #333;">${formData.motherName || '-'}</td></tr>`);
-    printWindow.document.write(`<tr><td style="font-weight:bold;border:1px solid #333;">Mother's Mobile Number</td><td style="border:1px solid #333;">${formData.motherMobile || '-'}</td></tr>`);
-    printWindow.document.write(`<tr><td style="font-weight:bold;border:1px solid #333;">Mother's Occupation</td><td style="border:1px solid #333;">${formData.motherOccupation || '-'}</td></tr>`);
+    // Father Details
+    if (formData.fatherName || formData.fatherMobile || formData.fatherOccupation || formData.fatherAadhaar || formData.fatherIncome) {
+        printWindow.document.write(`<tr><td style="font-weight:bold;width:40%;padding:4px 8px;border:1px solid #333;">Father Name</td><td style="padding:4px 8px;border:1px solid #333;">${formData.fatherName || '-'}</td></tr>`);
+        printWindow.document.write(`<tr><td style="font-weight:bold;border:1px solid #333;">Father's Mobile Number</td><td style="border:1px solid #333;">${formData.fatherMobile || '-'}</td></tr>`);
+        printWindow.document.write(`<tr><td style="font-weight:bold;border:1px solid #333;">Father's Occupation</td><td style="border:1px solid #333;">${formData.fatherOccupation || '-'}</td></tr>`);
+        printWindow.document.write(`<tr><td style="font-weight:bold;border:1px solid #333;">Father's Aadhaar Number</td><td style="border:1px solid #333;">${formData.fatherAadhaar || '-'}</td></tr>`);
+        printWindow.document.write(`<tr><td style="font-weight:bold;border:1px solid #333;">Father's Annual Income</td><td style="border:1px solid #333;">${formData.fatherIncome || '-'}</td></tr>`);
+    }
+    // Mother Details
+    if (formData.motherName || formData.motherMobile || formData.motherOccupation || formData.motherAadhaar || formData.motherIncome) {
+        printWindow.document.write(`<tr><td style="font-weight:bold;width:40%;padding:4px 8px;border:1px solid #333;">Mother Name</td><td style="padding:4px 8px;border:1px solid #333;">${formData.motherName || '-'}</td></tr>`);
+        printWindow.document.write(`<tr><td style="font-weight:bold;border:1px solid #333;">Mother's Mobile Number</td><td style="border:1px solid #333;">${formData.motherMobile || '-'}</td></tr>`);
+        printWindow.document.write(`<tr><td style="font-weight:bold;border:1px solid #333;">Mother's Occupation</td><td style="border:1px solid #333;">${formData.motherOccupation || '-'}</td></tr>`);
+        printWindow.document.write(`<tr><td style="font-weight:bold;border:1px solid #333;">Mother's Aadhaar Number</td><td style="border:1px solid #333;">${formData.motherAadhaar || '-'}</td></tr>`);
+        printWindow.document.write(`<tr><td style="font-weight:bold;border:1px solid #333;">Mother's Annual Income</td><td style="border:1px solid #333;">${formData.motherIncome || '-'}</td></tr>`);
+    }
+    // Guardian Details
+    if (formData.guardianName || formData.guardianMobile || formData.guardianOccupation || formData.guardianAadhaar || formData.guardianIncome || formData.guardianRelation) {
+        printWindow.document.write(`<tr><td style="font-weight:bold;width:40%;padding:4px 8px;border:1px solid #333;">Guardian Name</td><td style="padding:4px 8px;border:1px solid #333;">${formData.guardianName || '-'}</td></tr>`);
+        printWindow.document.write(`<tr><td style="font-weight:bold;border:1px solid #333;">Guardian's Mobile Number</td><td style="border:1px solid #333;">${formData.guardianMobile || '-'}</td></tr>`);
+        printWindow.document.write(`<tr><td style="font-weight:bold;border:1px solid #333;">Guardian's Occupation</td><td style="border:1px solid #333;">${formData.guardianOccupation || '-'}</td></tr>`);
+        printWindow.document.write(`<tr><td style="font-weight:bold;border:1px solid #333;">Guardian's Aadhaar Number</td><td style="border:1px solid #333;">${formData.guardianAadhaar || '-'}</td></tr>`);
+        printWindow.document.write(`<tr><td style="font-weight:bold;border:1px solid #333;">Guardian's Annual Income</td><td style="border:1px solid #333;">${formData.guardianIncome || '-'}</td></tr>`);
+        printWindow.document.write(`<tr><td style="font-weight:bold;border:1px solid #333;">Relationship with Student</td><td style="border:1px solid #333;">${formData.guardianRelation || '-'}</td></tr>`);
+    }
     printWindow.document.write('</tbody></table></div>');
 
     // Educational Details
@@ -877,11 +898,14 @@ function generatePrintPreview() {
     printWindow.document.write('<thead><tr><th colspan="4" style="background:#1976d2;color:#fff;padding:6px 10px;text-align:left;font-size:1rem;border:1px solid #333;">Educational Details</th></tr>');
     printWindow.document.write('<tr><th style="background:#e3f0fb;padding:6px 10px;border:1px solid #333;width:28%"> </th><th style="background:#e3f0fb;padding:6px 10px;border:1px solid #333;">10th Details</th><th style="background:#e3f0fb;padding:6px 10px;border:1px solid #333;">12th Details</th><th style="background:#e3f0fb;padding:6px 10px;border:1px solid #333;">Diploma</th></tr></thead>');
     printWindow.document.write('<tbody>');
-    printWindow.document.write(`<tr><td style="font-weight:bold;border:1px solid #333;">Candidate's Name As Per Qualifying Examination Marksheet</td><td style="border:1px solid #333;">${formData.name || '-'}</td><td style="border:1px solid #333;">${formData.name || '-'}</td><td style="border:1px solid #333;">${formData.name || '-'}</td></tr>`);
-    printWindow.document.write(`<tr><td style="font-weight:bold;border:1px solid #333;">Institution Name</td><td style="border:1px solid #333;">${formData.tenthSchool || '-'}</td><td style="border:1px solid #333;">${formData.twelfthSchool || '-'}</td><td style="border:1px solid #333;">${formData.ugSchool || '-'}</td></tr>`);
-    printWindow.document.write(`<tr><td style="font-weight:bold;border:1px solid #333;">Board/University</td><td style="border:1px solid #333;">${formData.tenthBoard || '-'}</td><td style="border:1px solid #333;">${formData.twelfthBoard || '-'}</td><td style="border:1px solid #333;">${formData.ugBoard || '-'}</td></tr>`);
-    printWindow.document.write(`<tr><td style="font-weight:bold;border:1px solid #333;">Year of passing</td><td style="border:1px solid #333;">${formData.tenthYear || '-'}</td><td style="border:1px solid #333;">${formData.twelfthYear || '-'}</td><td style="border:1px solid #333;">${formData.ugYear || '-'}</td></tr>`);
-    printWindow.document.write(`<tr><td style="font-weight:bold;border:1px solid #333;">Obtained Percentage/CGPA</td><td style="border:1px solid #333;">${formData.tenthPercentage || '-'}</td><td style="border:1px solid #333;">${formData.twelfthPercentage || '-'}</td><td style="border:1px solid #333;">${formData.ugPercentage || '-'}</td></tr>`);
+    // Determine which qualification is selected
+    const isDiploma = formData.qualificationTypeSelect === 'diploma';
+    const isTwelfth = formData.qualificationTypeSelect === 'twelfth';
+    printWindow.document.write(`<tr><td style="font-weight:bold;border:1px solid #333;">Candidate's Name As Per Qualifying Examination Marksheet</td><td style="border:1px solid #333;">${formData.name || '-'}</td><td style="border:1px solid #333;">${isTwelfth ? (formData.name || '-') : '-'}</td><td style="border:1px solid #333;">${isDiploma ? (formData.name || '-') : '-'}</td></tr>`);
+    printWindow.document.write(`<tr><td style="font-weight:bold;border:1px solid #333;">Institution Name</td><td style="border:1px solid #333;">${formData.tenthSchool || '-'}</td><td style="border:1px solid #333;">${isTwelfth ? (formData.twelfthSchool || '-') : '-'}</td><td style="border:1px solid #333;">${isDiploma ? (formData.diplomaSchool || '-') : '-'}</td></tr>`);
+    printWindow.document.write(`<tr><td style="font-weight:bold;border:1px solid #333;">Board/University</td><td style="border:1px solid #333;">${formData.tenthBoard || '-'}</td><td style="border:1px solid #333;">${isTwelfth ? (formData.twelfthBoard || '-') : '-'}</td><td style="border:1px solid #333;">${isDiploma ? (formData.diplomaBoard || '-') : '-'}</td></tr>`);
+    printWindow.document.write(`<tr><td style="font-weight:bold;border:1px solid #333;">Year of passing</td><td style="border:1px solid #333;">${formData.tenthYear || '-'}</td><td style="border:1px solid #333;">${isTwelfth ? (formData.twelfthYear || '-') : '-'}</td><td style="border:1px solid #333;">${isDiploma ? (formData.diplomaYear || '-') : '-'}</td></tr>`);
+    printWindow.document.write(`<tr><td style="font-weight:bold;border:1px solid #333;">Obtained Percentage/CGPA</td><td style="border:1px solid #333;">${formData.tenthPercentage || '-'}</td><td style="border:1px solid #333;">${isTwelfth ? (formData.twelfthPercentage || '-') : '-'}</td><td style="border:1px solid #333;">${isDiploma ? (formData.diplomaPercentage || '-') : '-'}</td></tr>`);
     printWindow.document.write('</tbody></table></div>');
 
     // Declaration Details
@@ -919,5 +943,10 @@ function generatePrintPreview() {
 
     printWindow.document.write('</body></html>');
     printWindow.document.close();
-    printWindow.print(); // Open print dialog
+    // Wait for the image to load before printing
+    printWindow.onload = function() {
+        setTimeout(function() {
+            printWindow.print();
+        }, 500); // 500ms delay to ensure image loads
+    };
 }
