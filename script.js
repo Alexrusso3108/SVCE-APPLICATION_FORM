@@ -822,7 +822,7 @@ function generatePrintPreview() {
     printWindow.document.write('</head><body>');
     // Always show the provided header image at the top of the print preview
     printWindow.document.write('<div style="margin-bottom: 2rem;"><img src="svce-new-logo.png" alt="SVCE Header" style="width: 100%; max-width: 1000px; height: auto; display: block; margin: 0 auto 1rem auto;"></div>');
-    printWindow.document.write('<h1 style="text-align:center;">Application Form For Admission to UG/PG</h1>');
+    printWindow.document.write('<h1 style="text-align:center;">Application Form For Admission</h1>');
 
     // Personal Details
     printWindow.document.write('<div class="section" style="margin-bottom: 24px;">');
@@ -923,7 +923,7 @@ function generatePrintPreview() {
     printWindow.document.write('<li>I agree to the applicant\'s admission to the institution. I shall be responsible for the payment of all his/her fees and charges, I shall be responsible for his/her conduct and good behaviour during the course & the entire period till he/she gets the degree.</li>');
     printWindow.document.write('<li>I will not claim or demand, under any circumstances or for any reasons, any refund of amount paid to the institution or to Management in connection with his/her admission even though he/ she withdraws his/her candidature and admission at any time during the course at his/her own risk or financial loss. There is no necessity to inform me further on these lines.</li>');
     printWindow.document.write('<li>If I am leaving the course either in the middle or on completion of the course, I will commit myself to clear all the dues before collecting TC/College leaving certificate.</li>');
-    printWindow.document.write('<li>College has the right to use photographs and/or video recordings of me, taken during academic events, cultural activities, or in connection with my academic performance, for use in college-related marketing and promotional materials.</li>');
+    printWindow.document.write('<li>I hereby grant the college the permission to use photographs and/or video recordings of me, captured during academic events, cultural activities, or in relation to my academic achievements, for inclusion in official college marketing and promotional materials.</li>');
     printWindow.document.write('<li>I acknowledge that the college holds copyright and ownership rights for any student\'s research publications, patents, or innovations developed or presented under the college\'s guidance.</li>');
     printWindow.document.write('<li>I will be responsible for any damage I cause to college property, whether on or off campus, and I shall pay the applicable damage charges.</li>');
     printWindow.document.write('<li>Any disputes arise is within the Jurisdiction of Bangalore city only.</li>');
